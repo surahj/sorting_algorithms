@@ -43,6 +43,7 @@ void selection_sort(int *array, size_t size)
 void swap_integer(int *a, int *b)
 {
 	int temp;
+
 	temp = *a;
 	*a = *b;
 	*b = temp;
