@@ -28,8 +28,8 @@ void selection_sort(int *array, size_t size)
 		}
 		if (min_index != (array + i))
 		{
-			print_array(array, size);
 			swap_integer(array + i, min_index);
+			print_array(array, size);
 		}
 	}
 }
