@@ -9,16 +9,15 @@
 
 void insertion_sort_list(listint_t **list)
 {
-	listint_t *temp = (*list)->next, *current_node, *previous_node;
+	listint_t *temp, *current_node, *previous_node;
 
 	if (list == NULL || *list == NULL || (*list)->next == NULL)
 		return;
 
-	while (temp != NULL)
+	for (temp = (*list)->next; temp != NULL; temp = temp->next)
 	{
 		previous_node = temp->prev;
 		current_node = temp;
-		temp = temp->next;
 
 		while ((previous_node != NULL) && previous_node->n > current_node->n)
 		{
