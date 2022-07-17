@@ -2,8 +2,8 @@
 
 void quick_sort(int *array, size_t size);
 void swap_int(int *a, int *b);
-void partion_sort(int *array, size_t size, size_t lower_b, size_t upper_b);
-int partion(int *array, size_t size, size_t lower_b, size_t upper_b);
+void partion_sort(int *array, size_t size, int lower_b, int upper_b);
+int lomuto_partition(int *array, size_t size, int lower_b, int upper_b);
 
 /**
  * swap_int - swap ywo integer
@@ -13,43 +13,47 @@ int partion(int *array, size_t size, size_t lower_b, size_t upper_b);
 
 void swap_int(int *a, int *b)
 {
-	int temp = *a;
+	int temp;
+
+	temp = *a;
 	*a = *b;
 	*b = temp;
 }
 
 /**
- * partion - partion the array
+ * lomuto_partition - lomuto_partition the array
  * @array: array of integers to sort
  * @size: size of the array
  * @lower_b: lower boundary of the array
  * @upper_b: upper boundary of the array
  * Return: return the position of the pivot
  */
-
-int partion(int *array, size_t size, size_t lower_b, size_t upper_b)
+int lomuto_partition(int *array, size_t size, int lower_b, int upper_b)
 {
-	size_t current_index = lower_b, i;
-	int *pivot = array + upper_b;
+	int *pivot;
+	int above, below;
 
-	for (i = lower_b; i < upper_b - 1; i++)
+	pivot = array + upper_b;
+	for (above = below = lower_b; below < upper_b; below++)
 	{
-		if (array[i] < *pivot)
+		if (array[below] < *pivot)
 		{
-			if (current_index < i)
+			if (above < below)
 			{
-				swap_int(array + i, array + current_index);
-				current_index++;
+				swap_int(array + below, array + above);
 				print_array(array, size);
 			}
+			above++;
 		}
 	}
-	if (array[current_index] > *pivot)
+
+	if (array[above] > *pivot)
 	{
-		swap_int(pivot, array + current_index);
+		swap_int(array + above, pivot);
 		print_array(array, size);
 	}
-	return (current_index);
+
+	return (above);
 }
 
 /**
@@ -74,15 +78,14 @@ void quick_sort(int *array, size_t size)
  * @upper_b: upper boundary of the list
  */
 
-void partion_sort(int *array, size_t size, size_t lower_b, size_t upper_b)
+void partion_sort(int *array, size_t size, int lower_b, int upper_b)
 {
-	size_t start = lower_b, end = upper_b;
-	size_t location;
+	int location;
 
-	if (start < end)
+	if (upper_b - lower_b > 0)
 	{
-		location = partion(array, size, start, end);
-		partion_sort(array, size, start, location);
-		partion_sort(array, size, location + 1, end);
+		location = lomuto_partition(array, size, lower_b, upper_b);
+		partion_sort(array, size, lower_b, location - 1);
+		partion_sort(array, size, location + 1, upper_b);
 	}
 }
