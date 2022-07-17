@@ -29,25 +29,27 @@ void swap_int(int *a, int *b)
 
 int partion(int *array, size_t size, size_t lower_b, size_t upper_b)
 {
-	size_t start = lower_b, end = upper_b;
-	int *pivot = array + lower_b;
+	size_t current_index = lower_b, i;
+	int *pivot = array + upper_b;
 
-	while (start < end)
+	for (i = lower_b; i < upper_b - 1; i++)
 	{
-		while (array[start] <= *pivot)
-			start++;
-
-		while (array[end] > *pivot)
-			end--;
-		if (start < end)
+		if (array[i] < *pivot)
 		{
-			swap_int((array + start), (array + end));
-			print_array(array, size);
+			if (current_index < i)
+			{
+				swap_int(array + i, array + current_index);
+				current_index++;
+				print_array(array, size);
+			}
 		}
 	}
-	swap_int(pivot, (array + end));
-	print_array(array, size);
-	return (end);
+	if (array[current_index] > *pivot)
+	{
+		swap_int(pivot, array + current_index);
+		print_array(array, size);
+	}
+	return (current_index);
 }
 
 /**
