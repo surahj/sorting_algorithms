@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include "sort.h"
 
+void swap_node(listint_t **h, listint_t **first_node, listint_t *second_node);
+void insertion_sort_list(listint_t **list);
+
 /**
  * insertion_sort_list - sorth the element of a linked list
  * @list: pointer to first node of the list
