@@ -13,17 +13,19 @@ void insertion_sort_list(listint_t **list)
 
 	if (list == NULL || *list == NULL || (*list)->next == NULL)
 		return;
+	temp = (*list)->next;
 
-	for (temp = (*list)->next; temp != NULL; temp = temp->next)
+	while (temp != NULL)
 	{
 		previous_node = temp->prev;
 		current_node = temp;
 
-		while ((previous_node != NULL) && previous_node->n > current_node->n)
+		while ((previous_node != NULL) && current_node->n < previous_node->n)
 		{
 			swap_node(list, &previous_node, current_node);
 			print_list((const listint_t *)*list);
 		}
+		temp = temp->next;
 	}
 }
 
