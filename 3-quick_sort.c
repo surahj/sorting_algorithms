@@ -38,11 +38,8 @@ int lomuto_partition(int *array, size_t size, int lower_b, int upper_b)
 	{
 		if (array[below] < *pivot)
 		{
-			if (above < below)
-			{
-				swap_int(array + below, array + above);
-				print_array(array, size);
-			}
+			swap_int(array + below, array + above);
+			print_array(array, size);
 			above++;
 		}
 	}
