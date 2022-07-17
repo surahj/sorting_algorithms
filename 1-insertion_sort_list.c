@@ -1,59 +1,48 @@
-#include <stdio.h>
 #include "sort.h"
 
-void swap_node(listint_t **h, listint_t **first_node, listint_t *second_node);
-void insertion_sort_list(listint_t **list);
-
 /**
- * insertion_sort_list - sorth the element of a linked list
- * @list: pointer to first node of the list
- * Return: Nothing
+ * swap_nodes - Swap two nodes in a listint_t doubly-linked list.
+ * @h: A pointer to the head of the doubly-linked list.
+ * @n1: A pointer to the first node to swap.
+ * @n2: The second node to swap.
  */
-
-void insertion_sort_list(listint_t **list)
+void swap_nodes(listint_t **h, listint_t **n1, listint_t *n2)
 {
-	listint_t *temp, *current_node, *previous_node;
-
-	if (list == NULL || *list == NULL || (*list)->next == NULL)
-		return;
-	temp = (*list)->next;
-
-	while (temp != NULL)
-	{
-		previous_node = temp->prev;
-		current_node = temp;
-
-		while ((previous_node != NULL) && current_node->n < previous_node->n)
-		{
-			swap_node(list, &previous_node, current_node);
-			print_list((const listint_t *)*list);
-		}
-		temp = temp->next;
-	}
+	(*n1)->next = n2->next;
+	if (n2->next != NULL)
+		n2->next->prev = *n1;
+	n2->prev = (*n1)->prev;
+	n2->next = *n1;
+	if ((*n1)->prev != NULL)
+		(*n1)->prev->next = n2;
+	else
+		*h = n2;
+	(*n1)->prev = n2;
+	*n1 = n2->prev;
 }
 
 /**
- * swap_node - swap two another
- * @h: pointer to first node of double linked list
- * @first_node: first node to swap
- * @second_node: second node to swap
- * Return: Nothing
+ * insertion_sort_list - Sorts a doubly linked list of integers
+ *                       using the insertion sort algorithm.
+ * @list: A pointer to the head of a doubly-linked list of integers.
+ *
+ * Description: Prints the list after each swap.
  */
-
-void swap_node(listint_t **h, listint_t **first_node, listint_t *second_node)
+void insertion_sort_list(listint_t **list)
 {
-	(*first_node)->next = second_node->next;
-	if (second_node->next != NULL)
-		second_node->next->prev = *first_node;
+	listint_t *iter, *insert, *tmp;
 
-	second_node->prev = (*first_node)->prev;
-	if ((*first_node)->prev != NULL)
-		(*first_node)->prev->next = second_node;
+	if (list == NULL || *list == NULL || (*list)->next == NULL)
+		return;
 
-	else
-		*h = second_node;
-
-	(*first_node)->prev = second_node;
-	second_node->next = *first_node;
-	*first_node = second_node->prev;
+	for (iter = (*list)->next; iter != NULL; iter = tmp)
+	{
+		tmp = iter->next;
+		insert = iter->prev;
+		while (insert != NULL && iter->n < insert->n)
+		{
+			swap_nodes(list, &insert, iter);
+			print_list((const listint_t *)*list);
+		}
+	}
 }
