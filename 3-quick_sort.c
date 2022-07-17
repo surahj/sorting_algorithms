@@ -31,26 +31,29 @@ void swap_int(int *a, int *b)
 int lomuto_partition(int *array, size_t size, int lower_b, int upper_b)
 {
 	int *pivot;
-	int above, below;
+	int current_index, i;
 
 	pivot = array + upper_b;
-	for (above = below = lower_b; below < upper_b; below++)
+	for (current_index = i = lower_b; i < upper_b; i++)
 	{
-		if (array[below] < *pivot)
+		if (array[i] < *pivot)
 		{
-			swap_int(array + below, array + above);
-			print_array(array, size);
-			above++;
+			if (current_index < i)
+			{
+				swap_int(array + i, array + current_index);
+				print_array(array, size);
+			}
+			current_index++;
 		}
 	}
 
-	if (array[above] > *pivot)
+	if (array[current_index] > *pivot)
 	{
-		swap_int(array + above, pivot);
+		swap_int(array + current_index, pivot);
 		print_array(array, size);
 	}
 
-	return (above);
+	return (current_index);
 }
 
 /**
@@ -79,7 +82,7 @@ void partion_sort(int *array, size_t size, int lower_b, int upper_b)
 {
 	int location;
 
-	if (upper_b - lower_b > 0)
+	if (lower_b < upper_b)
 	{
 		location = lomuto_partition(array, size, lower_b, upper_b);
 		partion_sort(array, size, lower_b, location - 1);
